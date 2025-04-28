@@ -1,0 +1,26 @@
+name: Build MyEnv EXE
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install MinGW
+      run: choco install mingw -y
+
+    - name: Compile EXE
+      run: |
+        gcc MyEnv.c -municode -mwindows -o MyEnv.exe
+
+    - name: Upload EXE
+      uses: actions/upload-artifact@v4
+      with:
+        name: MyEnv_exe
+        path: MyEnv.exe
